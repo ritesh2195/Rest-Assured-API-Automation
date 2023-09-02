@@ -1,0 +1,6 @@
+Tests\AddCommentTest.class
+EndPoints\EndPoint.class
+Tests\GetIssueTest.class
+Utils\FileReader.class
+Tests\AttachmentTest.class
+Tests\CreateIssueTest.class
