@@ -25,7 +25,7 @@ This project demonstrates how to automate testing of Jira REST APIs using Sereni
 ```bash
 1. git clone https://github.com/ritesh2195/Jira-API-Testing-Serenity-Rest-Assured.git
 2. Open the project in your IDE.
-3. Update serenity.properties file with your Jira base URL, username, and API token.
+3. Update config.properties file with your Jira base URL, username, and API token.
 4. Install dependencies using Maven:**mvn clean install**
 
 ## Usages
