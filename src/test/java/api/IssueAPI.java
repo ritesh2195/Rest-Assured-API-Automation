@@ -1,7 +1,6 @@
 package api;
 
-import Utils.FileReader;
-import pojo.Comment;
+import utils.FileReader;
 import pojo.Payload;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.RestAssured;

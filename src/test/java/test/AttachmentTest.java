@@ -1,6 +1,6 @@
 package test;
 
-import Utils.FileReader;
+import utils.FileReader;
 import api.IssueAPI;
 import utils.ExcelUtil;
 import io.restassured.path.json.JsonPath;

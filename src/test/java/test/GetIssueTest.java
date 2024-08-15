@@ -2,7 +2,7 @@ package test;
 
 import api.IssueAPI;
 import utils.ExcelUtil;
-import Utils.FileReader;
+import utils.FileReader;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Steps;
