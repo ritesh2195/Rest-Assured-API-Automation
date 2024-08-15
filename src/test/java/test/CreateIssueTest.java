@@ -2,7 +2,6 @@ package test;
 
 import api.IssueAPI;
 import builders.JiraIssueBuilder;
-import org.junit.BeforeClass;
 import pojo.*;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.junit.runners.SerenityRunner;

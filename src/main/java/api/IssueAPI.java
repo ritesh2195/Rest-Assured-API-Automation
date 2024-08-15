@@ -1,7 +1,5 @@
 package api;
 
-import utils.FileReader;
-import pojo.Payload;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -9,6 +7,8 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Step;
+import pojo.Payload;
+import utils.FileReader;
 
 import java.io.File;
 
