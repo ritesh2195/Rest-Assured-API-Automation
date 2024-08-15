@@ -1,9 +1,8 @@
-package Tests;
+package test;
 
-import EndPoints.EndPoint;
-import Utility.ExcelReader;
 import Utils.FileReader;
-import io.restassured.RestAssured;
+import api.IssueAPI;
+import utils.ExcelUtil;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Steps;
@@ -16,16 +15,16 @@ import java.io.IOException;
 public class AttachmentTest {
 
     @Steps
-    EndPoint endPoint;
+    IssueAPI issueAPI;
 
     @Test
     public void addAttachment() throws IOException {
 
-        ExcelReader excelReader = new ExcelReader(FileReader.getInstance().getExcelFilePath());
+        ExcelUtil excelReader = new ExcelUtil(FileReader.getInstance().getExcelFilePath());
 
         String id = excelReader.getCellData("AddComment","Id",2);
 
-        String body = endPoint.addAttachment(id).then().assertThat().statusCode(200).extract().body().asString();
+        String body = issueAPI.addAttachment("10220").then().assertThat().statusCode(200).extract().body().asString();
 
         JsonPath jsonPath = new JsonPath(body);
 

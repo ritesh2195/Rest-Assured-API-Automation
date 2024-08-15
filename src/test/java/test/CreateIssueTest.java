@@ -1,7 +1,9 @@
-package Tests;
+package test;
 
-import EndPoints.EndPoint;
-import Pojo.IssuePayload;
+import api.IssueAPI;
+import builders.JiraIssueBuilder;
+import org.junit.BeforeClass;
+import pojo.*;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Steps;
@@ -16,7 +18,7 @@ public class CreateIssueTest {
 
     @Steps
     static
-    EndPoint endPoint;
+    IssueAPI issueAPI;
 
     static String id;
 
@@ -24,9 +26,14 @@ public class CreateIssueTest {
     @Test
     public void postRequest(){
 
-        IssuePayload issuePayload = new IssuePayload();
+        Payload payload = new JiraIssueBuilder()
+                .setProjectKey("RP")
+                .setSummary("Feature is not working as expected")
+                .setDescription("Creating an issue using project keys and issue type names using the REST API")
+                .setIssueTypeName("Bug")
+                .build();
 
-        String responseBody = endPoint.createIssue(issuePayload.payLoad()).then().assertThat()
+        String responseBody = issueAPI.createIssue(payload).then().assertThat()
 
                 .statusCode(201).extract().body().asString();
 
@@ -36,7 +43,7 @@ public class CreateIssueTest {
 
         id = jsonPath.getString("id");
 
-        String getResponseBody = endPoint.getIssueDetails(key).then().assertThat().
+        String getResponseBody = issueAPI.getIssueDetails(key).then().assertThat().
 
                 statusCode(200).extract().body().asString();
 
@@ -51,6 +58,6 @@ public class CreateIssueTest {
     @AfterClass
     public static void deleteIssue(){
 
-        endPoint.deleteIssue(id).then().assertThat().statusCode(204);
-   }
+        issueAPI.deleteIssue(id).then().assertThat().statusCode(204);
+    }
 }

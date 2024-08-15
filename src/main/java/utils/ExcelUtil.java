@@ -1,4 +1,4 @@
-package Utility;
+package utils;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class ExcelReader {
+public class ExcelUtil {
 
     public String filepath;
 
@@ -27,7 +27,7 @@ public class ExcelReader {
 
     String fileExtension=null;
 
-    public ExcelReader(String filepath) throws IOException {
+    public ExcelUtil(String filepath) throws IOException {
 
         this.filepath = filepath;
 
@@ -276,7 +276,7 @@ public class ExcelReader {
 
     public static void main(String[] args) throws IOException {
 
-        ExcelReader reader = new ExcelReader("src/test/resources/TestData/IssueData.xlsx");
+        ExcelUtil reader = new ExcelUtil("src/test/resources/TestData/IssueData.xlsx");
 
         System.out.println(reader.getCellData("AddComment","Id",2));
 

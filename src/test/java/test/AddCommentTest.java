@@ -1,9 +1,9 @@
-package Tests;
+package test;
 
-import EndPoints.EndPoint;
-import Pojo.CommentPayload;
-import Utility.ExcelReader;
 import Utils.FileReader;
+import api.IssueAPI;
+import pojo.CommentPayload;
+import utils.ExcelUtil;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Steps;
@@ -20,10 +20,10 @@ import static org.hamcrest.Matchers.*;
 public class AddCommentTest {
 
     @Steps
-    EndPoint endPoint;
+    IssueAPI endPoint;
 
     static String commentId;
-    static ExcelReader excelReader;
+    static ExcelUtil excelReader;
     static String id;
     CommentPayload payload = new CommentPayload();
 
@@ -31,13 +31,13 @@ public class AddCommentTest {
     @Test
     public void addComment() throws IOException {
 
-        excelReader = new ExcelReader(FileReader.getInstance().getExcelFilePath());
+        excelReader = new ExcelUtil(FileReader.getInstance().getExcelFilePath());
 
         id = excelReader.getCellData("AddComment","Id",2);
 
         String comment = excelReader.getCellData("AddComment","Comment",2);
 
-        String responseBody = endPoint.addComment(payload.payLoad(),id).then().assertThat()
+        String responseBody = endPoint.addComment(payload.payLoad(),"10220").then().assertThat()
 
                 .statusCode(201).extract().body().asString();
 
@@ -49,7 +49,7 @@ public class AddCommentTest {
 
         Assert.assertEquals(commentText,comment);
 
-        String getRequestBody = endPoint.getIssueDetails("10022").then().assertThat().statusCode(200).extract()
+        String getRequestBody = endPoint.getIssueDetails("10220").then().assertThat().statusCode(200).extract()
 
                 .body().asString();
 

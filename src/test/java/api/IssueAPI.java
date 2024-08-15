@@ -1,6 +1,8 @@
-package EndPoints;
+package api;
 
 import Utils.FileReader;
+import pojo.Comment;
+import pojo.Payload;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -11,11 +13,11 @@ import net.thucydides.core.annotations.Step;
 
 import java.io.File;
 
-public class EndPoint {
+public class IssueAPI {
 
     private final RequestSpecification specification;
 
-    public EndPoint(){
+    public IssueAPI(){
 
         String userName = FileReader.getInstance().getUserName();
 
@@ -36,7 +38,7 @@ public class EndPoint {
     }
 
     @Step
-    public Response createIssue(ObjectNode node){
+    public Response createIssue(Payload node){
 
         return specification.body(node).when().post();
     }
@@ -48,9 +50,9 @@ public class EndPoint {
     }
 
     @Step
-    public Response addComment(ObjectNode node, String id){
+    public Response addComment(ObjectNode payload, String id){
 
-        return specification.body(node).when().post("/"+id+"/comment");
+        return specification.body(payload).when().post("/"+id+"/comment");
 
     }
 
@@ -65,8 +67,8 @@ public class EndPoint {
     }
 
     @Step
-    public Response updateComment(String issueId, String commentId, ObjectNode node){
+    public Response updateComment(String issueId, String commentId, ObjectNode payload){
 
-        return specification.body(node).when().put("/"+issueId+"/comment/"+commentId);
+        return specification.body(payload).when().put("/"+issueId+"/comment/"+commentId);
     }
 }

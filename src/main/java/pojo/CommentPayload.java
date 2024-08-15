@@ -1,19 +1,19 @@
-package Pojo;
+package pojo;
 
-import Utility.ExcelReader;
+import utils.ExcelUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 
 public class CommentPayload {
 
-    ExcelReader reader;
+    ExcelUtil reader;
 
     public CommentPayload() {
 
         try {
 
-            reader = new ExcelReader("src/test/resources/TestData/IssueData.xlsx");
+            reader = new ExcelUtil("src/test/resources/TestData/IssueData.xlsx");
 
         } catch (IOException e) {
 

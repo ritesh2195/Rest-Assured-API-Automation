@@ -1,7 +1,7 @@
-package Tests;
+package test;
 
-import EndPoints.EndPoint;
-import Utility.ExcelReader;
+import api.IssueAPI;
+import utils.ExcelUtil;
 import Utils.FileReader;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.junit.runners.SerenityRunner;
@@ -16,12 +16,12 @@ import java.io.IOException;
 public class GetIssueTest {
 
     @Steps
-    EndPoint endPoint;
+    IssueAPI endPoint;
 
     @Test
     public void getRequest() throws IOException {
 
-        ExcelReader excelReader = new ExcelReader(FileReader.getInstance().getExcelFilePath());
+        ExcelUtil excelReader = new ExcelUtil(FileReader.getInstance().getExcelFilePath());
 
         String key = excelReader.getCellData("AddComment","Key",2);
 
