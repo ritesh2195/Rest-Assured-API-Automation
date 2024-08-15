@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Jira API Testing" />
         <module name="JiraAPI" />
+        <module name="Rest-Assured-API-Automation" />
       </profile>
     </annotationProcessing>
   </component>

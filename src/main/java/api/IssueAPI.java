@@ -1,6 +1,7 @@
 package api;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import endpoints.JiraEndPoint;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -22,7 +23,7 @@ public class IssueAPI {
 
         String password = FileReader.getInstance().getPassword();
 
-        RestAssured.baseURI = FileReader.getInstance().getEndPoint();
+        RestAssured.baseURI = FileReader.getInstance().getEndPoint()+ JiraEndPoint.USER.getEndPoint();
 
         specification = SerenityRest.given().auth().preemptive().basic(userName,password).
 
