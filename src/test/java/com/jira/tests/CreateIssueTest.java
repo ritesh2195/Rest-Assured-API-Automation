@@ -4,6 +4,7 @@ import com.jira.api.IssueAPI;
 import com.jira.builders.JiraIssueBuilder;
 import com.jira.constants.APIHttpStatus;
 import com.jira.pojo.Payload;
+import com.jira.utils.APIUtil;
 import io.restassured.path.json.JsonPath;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,9 +35,13 @@ public class CreateIssueTest {
                 .setIssueTypeName("Bug")
                 .build();
 
-        String responseBody = issueAPI.createIssue(payload).then().assertThat()
-
-                .statusCode(APIHttpStatus.CREATED_201.getCode()).extract().body().asString();
+        String responseBody = issueAPI
+                .createIssue(payload)
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.CREATED_201.getCode()))
+                .extract()
+                .body()
+                .asString();
 
         JsonPath jsonPath = new JsonPath(responseBody);
 
@@ -44,9 +49,13 @@ public class CreateIssueTest {
 
         id = jsonPath.getString("id");
 
-        String getResponseBody = issueAPI.getIssueDetails(key).then().assertThat().
-
-                statusCode(APIHttpStatus.OK_200.getCode()).extract().body().asString();
+        String getResponseBody = issueAPI
+                .getIssueDetails(key)
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.OK_200.getCode()))
+                .extract()
+                .body()
+                .asString();
 
         JsonPath jsonPath1 = new JsonPath(getResponseBody);
 
@@ -59,6 +68,9 @@ public class CreateIssueTest {
     @AfterClass
     public static void deleteIssue(){
 
-        issueAPI.deleteIssue(id).then().assertThat().statusCode(APIHttpStatus.NO_CONTENT_204.getCode());
+        issueAPI
+                .deleteIssue(id)
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.NO_CONTENT_204.getCode()));
     }
 }

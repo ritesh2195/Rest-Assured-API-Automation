@@ -1,6 +1,7 @@
 package com.jira.tests;
 
 import com.jira.constants.APIHttpStatus;
+import com.jira.utils.APIUtil;
 import com.jira.utils.FileReaderUtil;
 import com.jira.api.IssueAPI;
 import com.jira.pojo.CommentPayload;
@@ -37,9 +38,13 @@ public class AddCommentTest {
 
         String comment = excelReader.getCellData("AddComment","Comment",2);
 
-        String responseBody = issueAPI.addComment(payload.payLoad(),"10220").then().assertThat()
-
-                .statusCode(APIHttpStatus.CREATED_201.getCode()).extract().body().asString();
+        String responseBody = issueAPI
+                .addComment(payload.payLoad(),"10220")
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.CREATED_201.getCode()))
+                .extract()
+                .body()
+                .asString();
 
         JsonPath jsonPath = new JsonPath(responseBody);
 
@@ -49,9 +54,13 @@ public class AddCommentTest {
 
         assertThat(commentText,equalTo(comment));
 
-        String getRequestBody = issueAPI.getIssueDetails("10220").then().assertThat().statusCode(200).extract()
-
-                .body().asString();
+        String getRequestBody = issueAPI
+                .getIssueDetails("10220")
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.OK_200.getCode()))
+                .extract()
+                .body()
+                .asString();
 
         JsonPath jsonPath1 = new JsonPath(getRequestBody);
 
@@ -66,12 +75,19 @@ public class AddCommentTest {
 
         String updatedComment = excelReader.getCellData("AddComment","UpdatedComment",2);
 
-        String body = issueAPI.updateComment(id,commentId,payload.updateCommentPayload()).then()
+        String body = issueAPI
+                .updateComment(id,commentId,payload.updateCommentPayload())
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.OK_200.getCode()))
+                .extract()
+                .body()
+                .asString();
 
-                .assertThat().statusCode(APIHttpStatus.OK_200.getCode()).extract().body().asString();
-
-        issueAPI.getIssueDetails(id).then().assertThat().statusCode(APIHttpStatus.OK_200.getCode()).assertThat()
-
+        issueAPI
+                .getIssueDetails(id)
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.OK_200.getCode()))
+                .assertThat()
                 .body("fields.comment.comments[0].body",equalTo(updatedComment));
 
     }

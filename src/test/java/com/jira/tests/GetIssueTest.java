@@ -2,6 +2,7 @@ package com.jira.tests;
 
 import com.jira.api.IssueAPI;
 import com.jira.constants.APIHttpStatus;
+import com.jira.utils.APIUtil;
 import com.jira.utils.ExcelUtil;
 import com.jira.utils.FileReaderUtil;
 import io.restassured.path.json.JsonPath;
@@ -18,7 +19,7 @@ import java.io.IOException;
 public class GetIssueTest {
 
     @Steps
-    IssueAPI endPoint;
+    IssueAPI issueAPI;
 
     @Test
     public void getRequest() throws IOException {
@@ -27,8 +28,13 @@ public class GetIssueTest {
 
         String key = excelReader.getCellData("AddComment","Key",2);
 
-        String responseBody = endPoint.getIssueDetails(key).then().assertThat().
-                statusCode(APIHttpStatus.OK_200.getCode()).extract().body().asString();
+        String responseBody = issueAPI
+                .getIssueDetails(key)
+                .then()
+                .spec(APIUtil.getResponseBuilder(APIHttpStatus.OK_200.getCode()))
+                .extract()
+                .body()
+                .asString();
 
         JsonPath jsonPath = new JsonPath(responseBody);
 
