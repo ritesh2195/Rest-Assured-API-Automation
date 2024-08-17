@@ -62,7 +62,7 @@ public class IssueAPI {
     }
 
     @Step
-    public Response updateComment(String issueId, String commentId, ObjectNode payload){
+    public Response updateComment(String issueId, String commentId, Object payload){
 
         return specification.body(payload).when().put("/"+issueId+"/comment/"+commentId);
     }

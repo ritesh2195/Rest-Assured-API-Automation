@@ -1,6 +1,7 @@
 package com.jira.tests;
 
 import com.jira.constants.APIHttpStatus;
+import com.jira.pojo.Comment;
 import com.jira.utils.APIUtil;
 import com.jira.utils.FileReaderUtil;
 import com.jira.api.IssueAPI;
@@ -24,22 +25,19 @@ public class AddCommentTest {
     IssueAPI issueAPI;
 
     static String commentId;
-    static ExcelUtil excelReader;
     static String id;
-    CommentPayload payload = new CommentPayload();
+    static Comment payload;
 
     @Order(1)
     @Test
     public void addComment() throws IOException {
 
-        excelReader = new ExcelUtil(FileReaderUtil.getInstance().getExcelFilePath());
+        payload = new Comment();
 
-        id = excelReader.getCellData("AddComment","Id",2);
-
-        String comment = excelReader.getCellData("AddComment","Comment",2);
+        payload.setBody("add comment");
 
         String responseBody = issueAPI
-                .addComment(payload.payLoad(),"10220")
+                .addComment(payload,"10220")
                 .then()
                 .spec(APIUtil.getResponseBuilder(APIHttpStatus.CREATED_201.getCode()))
                 .extract()
@@ -52,7 +50,7 @@ public class AddCommentTest {
 
         String commentText = jsonPath.getString("body");
 
-        assertThat(commentText,equalTo(comment));
+        assertThat(commentText,equalTo(payload.getBody()));
 
         String getRequestBody = issueAPI
                 .getIssueDetails("10220")
@@ -66,29 +64,34 @@ public class AddCommentTest {
 
         int commentCount = jsonPath1.getInt("fields.comment.comments.size()");
 
-        assertThat(jsonPath1.getString("fields.comment.comments["+(commentCount-1)+"].body"),equalTo(comment));
+        assertThat(jsonPath1.getString("fields.comment.comments["+(commentCount-1)+"].body")
+                ,equalTo(payload.getBody()));
     }
 
     @Order(2)
     @Test
     public void updateComment(){
 
-        String updatedComment = excelReader.getCellData("AddComment","UpdatedComment",2);
+        System.out.println("Updated comment"+commentId);
+
+        payload.setBody("updated comment");
 
         String body = issueAPI
-                .updateComment(id,commentId,payload.updateCommentPayload())
+                .updateComment("10220",commentId,payload)
                 .then()
+                .log()
+                .all()
                 .spec(APIUtil.getResponseBuilder(APIHttpStatus.OK_200.getCode()))
                 .extract()
                 .body()
                 .asString();
 
         issueAPI
-                .getIssueDetails(id)
+                .getIssueDetails("10220")
                 .then()
                 .spec(APIUtil.getResponseBuilder(APIHttpStatus.OK_200.getCode()))
                 .assertThat()
-                .body("fields.comment.comments[0].body",equalTo(updatedComment));
+                .body("fields.comment.comments[0].body",equalTo(payload.getBody()));
 
     }
 }
