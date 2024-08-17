@@ -1,4 +1,4 @@
-com\jira\test\AttachmentTest.class
-com\jira\test\AddCommentTest.class
-com\jira\test\GetIssueTest.class
-com\jira\test\CreateIssueTest.class
+com\jira\tests\GetIssueTest.class
+com\jira\tests\AddCommentTest.class
+com\jira\tests\AttachmentTest.class
+com\jira\tests\CreateIssueTest.class

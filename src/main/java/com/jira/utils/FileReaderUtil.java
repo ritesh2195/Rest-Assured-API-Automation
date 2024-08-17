@@ -37,9 +37,9 @@ public class FileReaderUtil {
         return fileReader;
     }
 
-    public String getEndPoint(){
+    public String getBaseURI(){
 
-        return properties.getProperty("endPoint");
+        return properties.getProperty("baseURI");
     }
 
     public String getUserName(){

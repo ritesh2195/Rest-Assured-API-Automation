@@ -20,7 +20,7 @@ public class IssueAPI {
 
         String password = FileReaderUtil.getInstance().getPassword();
 
-        RestAssured.baseURI = FileReaderUtil.getInstance().getEndPoint()+ JiraEndPoint.USER.getEndPoint();
+        RestAssured.baseURI = FileReaderUtil.getInstance().getBaseURI()+ JiraEndPoint.ISSUE.getEndPoint();
 
         specification = SerenityRest.given().auth().preemptive().basic(userName,password).
 
