@@ -2,12 +2,12 @@ package com.jira.utils;
 
 import java.sql.*;
 
-public class DBConnector {
+public class DBUtil {
 
     private final Statement statement;
     private final Connection connection;
 
-    public DBConnector() throws ClassNotFoundException, SQLException {
+    public DBUtil() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -42,7 +42,7 @@ public class DBConnector {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        DBConnector connector = new DBConnector();
+        DBUtil connector = new DBUtil();
 
         String value = connector.getQuery("Select * from issue");
 
